@@ -7,47 +7,71 @@
 import {promisify} from 'util';
 import fs from 'fs';
 import http from 'http';
-import mime from './mime';
+import getMime from './mime';
 import config from './config';
 import compress from './compress';
 import isCache from './cache';
+import path from 'path';
 
 // promisify
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
 
 const route = async (req: http.IncomingMessage, res: http.ServerResponse, filePath: string) => {
-    try {
-        const stats = await stat(filePath);
-        const {isFile, isDirectory} = stats;
-        const mimeType = mime[filePath];
-        if (isFile()) {
-            res.statusCode = 200;
-            res.setHeader('content-type', mimeType);
-            if (isCache(stats, req, res)) {
-                res.statusCode = 304;
-                res.end();
+    let stats;
+    let notFound: boolean = true;
+
+    const checkFile = async (urlPath: string) => {
+        try {
+            stats = await stat(urlPath);
+            if (stats.isFile()) {
+                notFound = false;
+                filePath = urlPath;
                 return;
             }
-
-            let readStream = fs.createReadStream(filePath);
-            if (filePath.match(config.compress)) {
-                readStream = compress(readStream, req, res);
-            }
-            readStream.pipe(res);
         }
-        else if (isDirectory()) {
+        catch (err) {
+            console.error('404了');
+            res.statusCode = 404;
+            res.setHeader('content-type', 'text/plain');
+            res.end(`${filePath} not found!`);
+            return;
+        }
+    };
+
+    await checkFile(filePath);
+
+    if (notFound && stats.isDirectory()) {
+        for (const p of config.default) {
+            await checkFile(path.join(filePath, p));
+            if (!notFound) {
+                break;
+            }
+        }
+        if (notFound) {
             const fileNames = await readdir(filePath);
             res.statusCode = 200;
-            res.setHeader('content-type', mimeType);
+            res.setHeader('content-type', 'text/plain');
             res.end('目录包含: ' + fileNames.join(','));
+            return;
         }
     }
-    catch (err) {
-        console.error(err);
-        res.statusCode = 404;
-        res.setHeader('content-type', 'text/plain');
-        res.end(`${filePath} not found!`);
+
+    if (stats.isFile()) {
+        res.statusCode = 200;
+        const mimeType = getMime(filePath);
+        res.setHeader('content-type', mimeType);
+        if (isCache(stats, req, res)) {
+            res.statusCode = 304;
+            res.end();
+            return;
+        }
+
+        let readStream = fs.createReadStream(filePath);
+        if (filePath.match(config.compress)) {
+            readStream = compress(readStream, req, res);
+        }
+        return readStream.pipe(res);
     }
 };
 

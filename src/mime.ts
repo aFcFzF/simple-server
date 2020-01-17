@@ -10,14 +10,15 @@ type MimeType = {
     [name: string]: string
 };
 
-const mimeTypes: MimeType = {
+export const mimeTypes: MimeType = {
   'js': 'application/x-javascript',
   'html': 'text/html',
   'css': 'text/css',
   'txt': "text/plain",
   'png': "image/png",
   'jpg': "image/jpeg",
-  'jpeg': "image/jpeg"
+  'jpeg': "image/jpeg",
+  'md': "application/octet-stream",
 }
 
 export default (filePath: string): string => {

@@ -7,14 +7,12 @@
 import http from 'http';
 import path from 'path';
 import config from './config';
-import {createWriteStream, createReadStream} from 'fs';
-import {Writable} from 'stream';
 import route from './route';
 
 const server = http.createServer((req, res) => {
+    console.log('req.url', req.url);
     const filePath = path.join(config.root, req.url);
     route(req, res, filePath);
-    res.end();
 });
 
 server.listen(
