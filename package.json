@@ -1,0 +1,41 @@
+{
+  "name": "simple-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint ./src",
+    "dev": "tsc -w",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.9",
+    "husky": "^3.1.0",
+    "tslint": "^6.0.0-beta0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aFcFzF/simple-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aFcFzF/simple-server/issues"
+  },
+  "homepage": "https://github.com/aFcFzF/simple-server#readme"
+}
