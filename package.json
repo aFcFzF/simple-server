@@ -1,7 +1,7 @@
 {
   "name": "crude-node-server",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.3",
+  "description": "简单的node-server",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:manual": "node test/manual/index",
