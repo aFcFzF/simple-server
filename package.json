@@ -1,10 +1,10 @@
 {
-  "name": "simple-server",
+  "name": "crude-node-server",
   "version": "1.0.0",
   "description": "",
-  "main": "config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:manual": "node test/manual/index",
     "lint": "tslint ./src",
     "dev": "tsc -w",
     "build": "tsc",
@@ -29,13 +29,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aFcFzF/simple-server.git"
+    "url": "git+https://github.com/aFcFzF/crude-node-server.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aFcFzF/simple-server/issues"
+    "url": "https://github.com/aFcFzF/crude-node-server/issues"
   },
-  "homepage": "https://github.com/aFcFzF/simple-server#readme"
+  "homepage": "https://github.com/aFcFzF/crude-node-server#readme"
 }

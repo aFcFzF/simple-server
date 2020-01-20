@@ -6,17 +6,32 @@
 
 import http from 'http';
 import path from 'path';
-import config from './config';
-import route from './route';
+import conf, {Config} from './config';
+import Router from './route';
 
-const server = http.createServer((req, res) => {
-    console.log('req.url', req.url);
-    const filePath = path.join(config.root, req.url);
-    route(req, res, filePath);
-});
+export = class Server {
+    conf: Config = null;
+    server: http.Server;
+    router;
 
-server.listen(
-    config.port,
-    config.host,
-    () => console.info(`server started at http://${config.host}:${config.port}`)
-);
+    constructor(config = {}) {
+        this.conf = Object.assign(conf, config);
+        this.router = new Router(this.conf);
+        this.createServer();
+    }
+
+    createServer() {
+        const config = this.conf;
+        const server = this.server = http.createServer((req, res) => {
+            const root = req.url.charAt(0) === '/' ? config.root : path.join(process.cwd(), config.root);
+            const filePath = path.join(root, req.url);
+            this.router.route(req, res, filePath);
+        });
+
+        server.listen(
+            config.port,
+            config.host,
+            () => console.info(`server started at http://${config.host}:${config.port}`)
+        );
+    }
+}
