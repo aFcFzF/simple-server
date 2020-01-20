@@ -42,10 +42,11 @@ export = class Router {
             let notFound = true;
             for (const p of this.config.index) {
                 try {
-                    filePath = path.join(filePath, p);
-                    stats = await stat(filePath);
+                    const uriPath = path.join(filePath, p);
+                    stats = await stat(uriPath);
                     if (stats.isFile()) {
                         notFound = false;
+                        filePath = uriPath;
                         break;
                     }
                 }

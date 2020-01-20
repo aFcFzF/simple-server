@@ -1,6 +1,6 @@
 {
-  "name": "crude-node-server",
-  "version": "1.0.6",
+  "name": "@baidu/crude-node-server",
+  "version": "1.0.10",
   "description": "简单的node-server",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -8,7 +8,7 @@
     "lint": "tslint ./src",
     "dev": "tsc -w",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node test/manual/index"
   },
   "main": "dist/server",
   "devDependencies": {
