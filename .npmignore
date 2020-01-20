@@ -3,7 +3,6 @@ node_modules_/
 wwwroot/
 coverage/
 test/**/*
-dist/
 scripts/
 output/
 .idea/
