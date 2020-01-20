@@ -11,7 +11,7 @@ export default {
     host: '127.0.0.1',
     port: 8123,
     compress: /\.(html|js|css|md)/,
-    default: ['index.html', 'index.htm'],
+    index: ['index.html', 'index.htm'],
     cache: {
         maxAge: 2,
         expires: true,

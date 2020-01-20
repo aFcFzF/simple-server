@@ -42,7 +42,7 @@ const route = async (req: http.IncomingMessage, res: http.ServerResponse, filePa
     await checkFile(filePath);
 
     if (notFound && stats.isDirectory()) {
-        for (const p of config.default) {
+        for (const p of config.index) {
             await checkFile(path.join(filePath, p));
             if (!notFound) {
                 break;
